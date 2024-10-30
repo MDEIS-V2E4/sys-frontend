@@ -6,11 +6,15 @@ pipeline {
         VITE_BASE_URL = 'http://localhost:3050/api'
         PM2_HOME = 'C:\\tools\\.pm2'
     }
-
+	parameters {
+		string(name: 'GITHUB_URL', defaultValue: 'https://github.com/enunez-dev/sys-frontend.git', description: 'GitHub URL project')
+        string(name: 'GITHUB_BRANCH', defaultValue: 'master', description: 'Branch to deploy from')
+    
+	}
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/enunez-dev/sys-frontend.git', branch: 'master'
+                git(branch: "${GITHUB_BRANCH}", url: '${GITHUB_URL}')
             }
         }
         stage('Install Dependencies') {
@@ -21,13 +25,14 @@ pipeline {
         stage('Down Service Nginx') {
             steps {
                 script {
-                    String nginxPathExecutable = "C:\\nginx\\nginx.exe"
+                    String nginxPathExecutable = "F:\\nginx\\nginx.exe"
                     bat "\"${nginxPathExecutable}\" -v"
                     
+					
                     def isRunning = bat(script: 'tasklist | findstr /I nginx.exe', returnStatus: true) == 0
                     if (isRunning) {
                         echo 'Nginx esta corriendo, se bajara el servicio para actualizar app.'
-                        bat "\"${nginxPathExecutable}\" -p C:\\nginx\\ -s stop"
+                        bat "\"${nginxPathExecutable}\" -p F:\\nginx\\ -s stop"
                         sleep 2
                     } else {
                         echo 'Nginx no esta corriendo, se procede a actualizar la app.'
@@ -44,7 +49,7 @@ pipeline {
             steps {
                 script{
                     def workspacePath = "${env.WORKSPACE}\\dist"
-                    bat "xcopy /E /I /Y ${workspacePath} \"C:\\nginx\\html\\sys-frontend\""
+                    bat "xcopy /E /I /Y ${workspacePath} \"F:\\nginx\\html\\sys-frontend\""
                 }    
             }
         }
