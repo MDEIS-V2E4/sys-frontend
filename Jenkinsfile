@@ -34,7 +34,7 @@ pipeline {
                     def isRunning = bat(script: 'tasklist | findstr /I nginx.exe', returnStatus: true) == 0
                     if (isRunning) {
                         echo 'Nginx is running; stopping the service for app update.'
-                        bat "\"${env.NGINX_PATH}\" -p F:\\nginx\\ -s stop"
+                        bat "\"${env.NGINX_PATH}\" -p C:\\nginx\\ -s stop"
                         sleep 2
                     } else {
                         echo 'Nginx is not running; proceeding with app update.'
@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
-                        bat "start /B cmd /c \"${env.NGINX_PATH}\" -p F:\\nginx\\"
+                        bat "start /B cmd /c \"${env.NGINX_PATH}\" -p C:\\nginx\\"
                         echo 'Nginx is now running after app update.'
                         sleep 2
                     }
