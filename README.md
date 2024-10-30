@@ -64,32 +64,33 @@ Este proyecto fue creado con [Vite] (https://vite.dev/) es una herramienta de co
     cd C:\\tools & mkdir .pm2
     ```
 
-#### Para configurar el despliegue automatizado con Jenkins, sigue los pasos a continuación:
-- **Instalar Jenkins y los plugins necesarios**: Asegúrate de que Jenkins esté instalado y que los plugins para Node.js y Git estén instalados.
-- **Configurar NodeJS (plugin)**: En jenkins ir a:
-    ```markdown
-    Dashboard > Manage Jenkins > Tools 
-    ```
-    y adicionar una instalacion de NodeJS
-    - **Name**: NodeJS 20
-    - **Installation directory**: Ruta donde esta instalado node ejm: C:\Program Files\nodejs
-    - **Install automatically**: (uncheck)
-    >Asi quedaria configurado NodeJS [Click aqui](https://drive.google.com/file/d/1MRMhUC3FWB-ikVZ1-TILXyuAQL6zBdHf/view?usp=sharing)
+## Despliegue con Jenkins (Windows)
 
-- **Configurar un nuevo pipeline**:
-  - New Item
-     - Name: **sys-backend**
-     - Type: Pipeline
-  - Pipeline
-     - Definition: Pipeline script from SCM
-       - SCM: Git
-         - Repository URL: https://github.com/enunez-dev/sys-frontend.git
-         - Branch Specifier: \*/master
-       - Script Path: Jenkinsfile
-  - (Save)
-  - Build Now
-  >Asi quedaria el pipeline [Click aqui](https://drive.google.com/file/d/1EQM1gaPVtW7OahTaJg0BWETy_9VdjaeU/view?usp=sharing)
+### Prerrequisitos
 
+- [Node.js](https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi) (versión 20 o más reciente)
+- **Nginx**: Necesario para servir la aplicación en modo producción. Configura Nginx en un directorio base, como `C:\nginx\`.
+
+### Configuración de Nginx
+
+Actualiza el archivo de configuración `nginx.conf` ubicado en `C:\nginx\conf\nginx.conf` con el siguiente contenido para servir la aplicación en el puerto 3000:
+
+```nginx
+server {
+    listen       3000;
+    server_name  localhost;
+
+    location / {
+        root   html/sys-frontend;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+```
 
 ## Uso
 
