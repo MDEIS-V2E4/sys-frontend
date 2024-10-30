@@ -5,74 +5,78 @@ pipeline {
         PORT = '3000'
         VITE_BASE_URL = 'http://localhost:3050/api'
         PM2_HOME = 'C:\\tools\\.pm2'
+        NGINX_PATH = 'C:\\nginx\\nginx.exe' // Set the path to Nginx executable
+        HTML_PATH = 'C:\\nginx\\html\\sys-frontend' // Set destination for frontend files
+    }
+
+    parameters {
+        string(name: 'GITHUB_URL', defaultValue: 'https://github.com/enunez-dev/sys-frontend.git', description: 'GitHub URL project')
+        string(name: 'GITHUB_BRANCH', defaultValue: 'master', description: 'Branch to deploy from')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/enunez-dev/sys-frontend.git', branch: 'master'
+                git(branch: "${params.GITHUB_BRANCH}", url: "${params.GITHUB_URL}")
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
-        stage('Find PM2 Path') {
+
+        stage('Down Service Nginx') {
             steps {
                 script {
-                    // Capturar el nombre de usuario actual usando PowerShell
-                    def loggedUser = bat(script: 'powershell -Command "(Get-WmiObject -Class Win32_ComputerSystem).UserName.Split(\'\\\\\')[1]"', returnStdout: true).trim()
-                    loggedUser = loggedUser.split("\r\n")[-1].trim()
-                    echo "loggedUser: ${loggedUser}"
-                    // Intentar encontrar pm2 en una ruta común de instalación global
-                    def possiblePm2Paths = [
-                        "C:\\Users\\${loggedUser}\\AppData\\Roaming\\npm\\pm2.cmd",
-                        "C:\\Program Files\\nodejs\\pm2.cmd",
-                    ]
-                    echo "possiblePm2Paths: ${possiblePm2Paths}"
-                    def foundPm2Path = possiblePm2Paths.find { path ->
-                        fileExists(path)
-                    }
-
-                    if (foundPm2Path) {
-                        env.PM2_PATH = foundPm2Path
-                        echo "PM2 se encuentra en: ${env.PM2_PATH}"
+                    // Check if Nginx is running, then stop it if it is
+                    def isRunning = bat(script: 'tasklist | findstr /I nginx.exe', returnStatus: true) == 0
+                    if (isRunning) {
+                        echo 'Nginx is running; stopping the service for app update.'
+                        bat "\"${env.NGINX_PATH}\" -p C:\\nginx\\ -s stop"
+                        sleep 2
                     } else {
-                        error "No se pudo encontrar la ruta de PM2 en las ubicaciones conocidas"
+                        echo 'Nginx is not running; proceeding with app update.'
                     }
                 }
             }
         }
+
         stage('Build with Vite') {
             steps {
-                bat 'npx tsc -b && npx vite build'
+                bat 'npm run build'
             }
         }
-        stage('Deploy with PM2') {
+
+        stage('Copy build to server') {
             steps {
                 script {
-                    try {
-                        // Detener cualquier instancia anterior
-                        bat "\"${env.PM2_PATH}\" stop sys-frontend || echo \"No previous app instance running\""
-                        bat "\"${env.PM2_PATH}\" delete sys-frontend || echo \"No previous app instance to delete\""
-                    } catch (Exception e) {
-                        echo 'No previous app instance running or failed to stop'
+                    def workspacePath = "${env.WORKSPACE}\\dist"
+                    bat "xcopy /E /I /Y \"${workspacePath}\" \"${env.HTML_PATH}\""
+                }
+            }
+        }
+
+        stage('Up server nginx') {
+            steps {
+                script {
+                    withEnv(['JENKINS_NODE_COOKIE=do_not_kill']) {
+                        bat "start /B cmd /c \"${env.NGINX_PATH}\" -p C:\\nginx\\"
+                        echo 'Nginx is now running after app update.'
+                        sleep 2
                     }
-                    // Iniciar la aplicación con PM2 en segundo plano
-                    bat "\"${env.PM2_PATH}\" serve dist %PORT% --name \"sys-frontend\" --spa"
-                    // Guardar la lista de procesos de PM2
-                    bat "\"${env.PM2_PATH}\" save"
                 }
             }
         }
     }
+
     post {
         always {
-            echo 'Proceso de despliegue del frontend completado.'
+            echo 'Frontend deployment process completed.'            
         }
         failure {
-            echo 'El despliegue falló, revisa los logs para más detalles.'
+            echo 'Deployment failed, please check the logs for more details.'
         }
     }
 }
