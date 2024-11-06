@@ -20,7 +20,7 @@ Este proyecto fue creado con [Vite] (https://vite.dev/) es una herramienta de co
 - [Node.js](https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi) (versión 20 latest)
 - [npm](https://www.npmjs.com/) o [Yarn](https://yarnpkg.com/)
 - [TypeScript](https://www.typescriptlang.org/) (globalmente instalado)
-
+- [Nginx](https://nginx.org/en/download.html)
 
 ## Instalación
 
@@ -47,23 +47,6 @@ Este proyecto fue creado con [Vite] (https://vite.dev/) es una herramienta de co
     yarn dev
 ```
 
-## Despliegue con Jenkins (WINDOWS)
-**Prerequisitos**:
-- [Node.js](https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi) (versión 20 latest)
-- **Instalacion de pm2**: PM2  es un administrador de procesos para aplicaciones Node.js que permite ejecutar y gestionar aplicaciones en producción.
-
-    ```bash
-    npm install pm2 -g
-    ```
-    Luego de instalar y cada vez que se reinicie el servidor ejecutar
-    ```bash
-    pm2 list
-    ```
-    Crear directorio .pm2
-    ```bash
-    cd C:\\tools & mkdir .pm2
-    ```
-
 ## Despliegue con Jenkins (Windows)
 
 ### Prerrequisitos
@@ -71,33 +54,7 @@ Este proyecto fue creado con [Vite] (https://vite.dev/) es una herramienta de co
 - [Node.js](https://nodejs.org/dist/v20.18.0/node-v20.18.0-x64.msi) (versión 20 o más reciente)
 - **Nginx**: Necesario para servir la aplicación en modo producción. Configura Nginx en un directorio base, como `C:\nginx\`.
 
-#### Para configurar el despliegue automatizado con Jenkins, sigue los pasos a continuación:
-- **Instalar Jenkins y los plugins necesarios**: Asegúrate de que Jenkins esté instalado y que los plugins para Node.js y Git estén instalados.
-- **Configurar NodeJS (plugin)**: En jenkins ir a:
-    ```markdown
-    Dashboard > Manage Jenkins > Tools 
-    ```
-    y adicionar una instalacion de NodeJS
-    - **Name**: NodeJS 20
-    - **Installation directory**: Ruta donde esta instalado node ejm: C:\Program Files\nodejs
-    - **Install automatically**: (uncheck)
-    >Asi quedaria configurado NodeJS [Click aqui](https://drive.google.com/file/d/1MRMhUC3FWB-ikVZ1-TILXyuAQL6zBdHf/view?usp=sharing)
-
-- **Configurar un nuevo pipeline**:
-  - New Item
-     - Name: **sys-frontend**
-     - Type: Pipeline
-  - Pipeline
-     - Definition: Pipeline script from SCM
-       - SCM: Git
-         - Repository URL: https://github.com/enunez-dev/sys-frontend.git
-         - Branch Specifier: \*/master
-       - Script Path: Jenkinsfile
-  - (Save)
-  - Build Now
-  >Asi quedaria el pipeline [Click aqui](https://drive.google.com/file/d/1EQM1gaPVtW7OahTaJg0BWETy_9VdjaeU/view?usp=sharing)
-
-### Configuración de Nginx
+#### Configuración de Nginx
 
 Actualiza el archivo de configuración `nginx.conf` ubicado en `C:\nginx\conf\nginx.conf` con el siguiente contenido para servir la aplicación en el puerto 3000:
 
@@ -118,9 +75,43 @@ server {
 }
 ```
 
+#### Para configurar el despliegue automatizado con Jenkins, sigue los pasos a continuación:
+
+- **Instalar Jenkins y los plugins necesarios**: Asegúrate de que Jenkins esté instalado y que los plugins para Node.js y Git estén instalados.
+- **Configurar NodeJS (plugin)**: En jenkins ir a:
+
+  ```markdown
+  Dashboard > Manage Jenkins > Tools
+  ```
+
+  y adicionar una instalacion de NodeJS
+
+  - **Name**: NodeJS 20
+  - **Installation directory**: Ruta donde esta instalado node ejm: C:\Program Files\nodejs
+  - **Install automatically**: (uncheck)
+    > Asi quedaria configurado NodeJS [Click aqui](https://drive.google.com/file/d/1MRMhUC3FWB-ikVZ1-TILXyuAQL6zBdHf/view?usp=sharing)
+
+- **Configurar un nuevo pipeline**:
+  - New Item
+    - Name: **sys-frontend**
+    - Type: Pipeline
+  - Pipeline
+    - Definition: Pipeline script from SCM
+      - SCM: Git
+        - Repository URL: https://github.com/enunez-dev/sys-frontend.git
+        - Branch Specifier: \*/master
+      - Script Path: Jenkinsfile
+  - (Save)
+  - Build Now
+    > Asi quedaria el pipeline [Click aqui](https://drive.google.com/file/d/1EQM1gaPVtW7OahTaJg0BWETy_9VdjaeU/view?usp=sharing)
+
 ## Uso
 
-Una vez en funcionamiento, el proyecto web estará disponible en http://localhost:3000 (o el puerto configurado). A continuación, se encuentran ejemplos de las rutas:
+Una vez en funcionamiento, el proyecto web estará disponible en http://localhost:3000 (o el puerto configurado). A continuación, se encuentran ejemplos de las vistas:
+
+#### Registro de clientes
+
+#### Registro de facturas
 
 ## Licencia
 
