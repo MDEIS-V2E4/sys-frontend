@@ -18,49 +18,49 @@ interface ModalItemProps {
 
 const products = [
   {
-    id: 6,
+    id: 1,
     code: '1',
     name: 'Pil Leche Fresca Natural X 946Ml',
     price: 6.4,
   },
   {
-    id: 7,
+    id: 2,
     code: '2',
     name: 'Act Ii Pipocas Queso Cheddar Bolsa X 96G',
     price: 21.2,
   },
   {
-    id: 8,
+    id: 3,
     code: '3',
     name: 'Pil Mantequilla Pasteurizada Con Sal X 200G',
     price: 17.7,
   },
   {
-    id: 9,
+    id: 4,
     code: '4',
     name: 'Pan Hogar Cunapecitos X 200G',
     price: 17.6,
   },
   {
-    id: 10,
+    id: 5,
     code: '5',
     name: 'Arcor Paneton Tradicional Con Frutas X 500G',
     price: 40.0,
   },
   {
-    id: 11,
+    id: 6,
     code: '6',
     name: 'Biogurt Probiótico Frutilla X 1 L',
     price: 17.0,
   },
   {
-    id: 12,
+    id: 7,
     code: '7',
     name: 'Pil Leche Con Cafe X 800Ml',
     price: 8.7,
   },
   {
-    id: 13,
+    id: 8,
     code: '8',
     name: 'Oreo Galletas Cookies And Cream X 36G',
     price: 3.1,
@@ -128,7 +128,7 @@ const ModalItem: React.FC<ModalItemProps> = ({ open, setOpen, getProduct }) => {
                               className="px-4 py-2 bg-blue-100 text-white rounded hover:bg-blue-300"
                               onClick={() => {
                                 getProduct(
-                                  product.code,
+                                  product.id,
                                   product.name,
                                   product.price,
                                 );

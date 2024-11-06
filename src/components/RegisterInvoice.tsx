@@ -6,9 +6,8 @@ import { FC, useState, useEffect, useRef } from "react";
 import * as Yup from "yup";
 import {
   InvoiceItemRequest,
-  InvoiceRequest
 } from "../api/request/types";
-import { useCreateInvoiceMutation, useFetchClientByCodeQuery } from "../api/productsApi";
+import { useCreateInvoiceMutation, useFetchClientByCiNitQuery } from "../api/productsApi";
 import Notification from "./Notification";
 import { NotificationType } from "./Notification";
 import ModalItem from "./ModalItem";
@@ -17,8 +16,10 @@ import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
 const RegisterInvoice: FC = () => {
   const initialValues: any = {
     clientCode: "",
+    clientId: 0,
     name: "",
-    payCondition: "Efectivo",
+    payConditionId: 1,
+    payConditionName: "Efectivo",
   };
 
   const [total, setTotal] = useState<number>(0);
@@ -28,7 +29,7 @@ const RegisterInvoice: FC = () => {
   const [message, setMessage] = useState<string>("");
   const [typeNotif, setTypeNotif] = useState<NotificationType>("success");
   const [createInvoice] = useCreateInvoiceMutation();
-  const { data: client } = useFetchClientByCodeQuery(codeClient!, {
+  const { data: client } = useFetchClientByCiNitQuery(codeClient!, {
     skip: !codeClient
   });
 
@@ -41,9 +42,9 @@ const RegisterInvoice: FC = () => {
     }
   }, []);
 
-  const getProduct = (codeProduct: string, nameProduct: string, price: number) => {
-    console.log(codeProduct + "  " + nameProduct);
-    const productExist = products.some((item) => item.code === codeProduct);
+  const getProduct = (productId: number, nameProduct: string, price: number) => {
+    console.log(productId + "  " + nameProduct);
+    const productExist = products.some((item) => item.id === productId);
     if (productExist) {
       setTypeNotif("warning");
       setMessage("El producto ya ha sido seleccionado");
@@ -52,9 +53,9 @@ const RegisterInvoice: FC = () => {
       setProducts([
         ...products,
         {
-          code: codeProduct,
+          id: productId,
           name: nameProduct,
-          amount: 1,
+          quantity: 1,
           price: price,
           subTotal: price * 1,
         },
@@ -62,25 +63,24 @@ const RegisterInvoice: FC = () => {
     }
   };
 
-  const deleteProduct = (codeProduct: string) => {
-    console.log(codeProduct);
-    const data = products.filter((item) => item.code !== codeProduct);
+  const deleteProduct = (productId: number) => {
+    console.log(productId);
+    const data = products.filter((item) => item.id !== productId);
     setProducts(data);
   };
 
   const paymentConditions = [
-    { value: "Efectivo", label: "Efectivo" },
-    { value: "Tarjeta", label: "Tarjeta" },
+    { value: 1, label: "Efectivo" },
+    { value: 2, label: "Tarjeta" },
   ];
 
-  const changeAmount = (code: string, value: any) => {
-    console.log(code, value);
+  const changeAmount = (productId: number, value: any) => {
     const data: any = products.map((item) => {
-      if (item.code == code) {
-        const amount = item.amount + value;
-        if (amount > 0 && amount <= 10) {
-          item.amount = amount;
-          item.subTotal = item.amount * item.price;
+      if (item.id == productId) {
+        const quantity = item.quantity + value;
+        if (quantity > 0 && quantity <= 10) {
+          item.quantity = quantity;
+          item.subTotal = item.quantity * item.price;
         }
       }
       return item;
@@ -89,6 +89,7 @@ const RegisterInvoice: FC = () => {
   };
 
   useEffect(() => {
+    console.log(products)
     let total1 = 0;
     products.forEach((item) => {
       total1 = total1 + item.subTotal;
@@ -97,9 +98,8 @@ const RegisterInvoice: FC = () => {
   }, [products]);
 
   const validationSchema = Yup.object({
-    clientCode: Yup.string().required("Código de Cliente es requerido"),
+    clientCode: Yup.string().required("CI/NIT de Cliente es requerido"),
     name: Yup.string().required("Nombre de Cliente es requerido"),
-    payCondition: Yup.string().required("Condición de Pago es requerido"),
   });
 
   const onSubmit = (values: any, { resetForm, setSubmitting }: FormikHelpers<any>) => {
@@ -108,9 +108,15 @@ const RegisterInvoice: FC = () => {
     if (products.length > 0) {
       try {
         console.log("BODY REQUEST: " + JSON.stringify(values));
-        const requedBody: InvoiceRequest = {
-          clientCode: values.clientCode,
-          payCondition: values.payCondition,
+        const requedBody: any = { 
+          client: {
+            id: values.clientId,
+            name: values.name
+          },
+          payCondition: {
+              id: values.payConditionId,
+              name: values.payConditionName
+          },
           total: total,
           productsItem: products
         }
@@ -154,13 +160,14 @@ const RegisterInvoice: FC = () => {
         {({ isSubmitting, status, setFieldValue, values  }) => {
             const handleClientCodeBlur = () => {
               const clientCode = values.clientCode;
-              console.log(clientCode)
               setCodeClient(clientCode);
             };
             useEffect(() => {
-              console.log(client)
-              setFieldValue('name', client?.name)
-            }, [client, setFieldValue]);
+              if(client?.data){
+                setFieldValue('name', client.data.name);
+                setFieldValue('clientId', client.data.id)
+              }
+            }, [client]);
 
           return (
             <Form className="space-y-4">
@@ -170,7 +177,7 @@ const RegisterInvoice: FC = () => {
               <div className="flex">
                 <div className="flex flex-col px-4 w-1/3">
                   <label htmlFor="clientCode" className="mb-1 font-semibold">
-                  Código Cliente:
+                  CI/NIT:
                   </label>
                   <Field
                     id="clientCode"
@@ -267,7 +274,7 @@ const RegisterInvoice: FC = () => {
                   <tbody>
                     {products.map((product, index: number) => (
                       <tr key={index} className="border-t">
-                        <td className="px-4 py-2">{product.code}</td>
+                        <td className="px-4 py-2">{product.id}</td>
                         <td className="px-4 py-2">{product.name}</td>
                         <td className="px-4 py-2">
                           <div className="flex">
@@ -275,17 +282,17 @@ const RegisterInvoice: FC = () => {
                               type="button"
                               className="px-1 py-1 bg-orange-100 text-white rounded hover:bg-orange-300"
                               onClick={() => {
-                                changeAmount(product.code, -1);
+                                changeAmount(product.id, -1);
                               }}
                             >
                               <MinusIcon className="h-5 w-5 text-orange-500" />
                             </button>
-                            <span className="mx-2">{product.amount}</span>
+                            <span className="mx-2">{product.quantity}</span>
                             <button
                               type="button"
                               className="px-1 py-1 bg-blue-100 text-white rounded hover:bg-blue-300"
                               onClick={() => {
-                                changeAmount(product.code, +1);
+                                changeAmount(product.id, +1);
                               }}
                             >
                               <PlusIcon className="h-5 w-5 text-blue-500" />
@@ -299,7 +306,7 @@ const RegisterInvoice: FC = () => {
                             type="button"
                             className="px-1 py-1 bg-red-100 text-white rounded hover:bg-red-300"
                             onClick={() => {
-                              deleteProduct(product.code);
+                              deleteProduct(product.id);
                             }}
                           >
                             <TrashIcon className="h-5 w-5 text-red-500" />

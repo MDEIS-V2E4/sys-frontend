@@ -13,7 +13,7 @@ export interface ProductRequest {
 }
 
 export interface ClientRequest {
-  code: string;
+  id?: number;
   name: string;
   ciNit: string;
   documentType: string;
@@ -27,9 +27,9 @@ export interface InvoiceRequest {
   productsItem: InvoiceItemRequest[];
 }
 export interface InvoiceItemRequest {
-  code: string;
+  id: number;
   name: string;
-  amount: number;
+  quantity: number;
   price: number;
   subTotal: number;
 }

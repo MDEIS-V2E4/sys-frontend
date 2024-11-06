@@ -6,13 +6,9 @@ import { ClientRequest } from "../api/request/types";
 import { useCreateClientMutation } from "../api/productsApi";
 import Notification from "./Notification";
 
-const generateNumericId = () => {
-  return (Math.floor(100000000 + Math.random() * 900000000)).toString(); // Genera un número entre 100000000 y 999999999
-};
 
 const RegisterClient: FC = () => {
   const initialValues: ClientRequest = {
-    code: generateNumericId(),
     name: '',
     ciNit: '',
     documentType: 'CI',
@@ -22,7 +18,6 @@ const RegisterClient: FC = () => {
   const [message, setMessage] = useState<string>("");
   const [createCliente] = useCreateClientMutation();
   const validationSchema = Yup.object({
-    code: Yup.string().required('Código es requerido'),
     name: Yup.string().required('Nombre es requerido'),
     ciNit: Yup.number()
       .typeError('CI/NIT solo acepta numeros')
@@ -40,14 +35,14 @@ const RegisterClient: FC = () => {
     }
   }, []);
 
-  const onSubmit = (values: ClientRequest, { resetForm, setSubmitting, setFieldValue }: FormikHelpers<ClientRequest>) => {
+  const onSubmit = (values: ClientRequest, { resetForm, setSubmitting }: FormikHelpers<ClientRequest>) => {
     try {
+      console.log(values)
       createCliente({ request: values }).unwrap();
       setMessage("Guardado correctamente");
       setShow(true);
       resetForm();
       setSubmitting(false);
-      setFieldValue('code', generateNumericId());
     } catch (error) {
       console.error("Failed to register product", error);
     }
@@ -73,23 +68,6 @@ const RegisterClient: FC = () => {
             {status && status.success && (
               <div className="text-green-500">{status.success}</div>
             )}
-            <div className="flex flex-col">
-              <label htmlFor="code" className="mb-1 font-semibold">
-                Código:
-              </label>
-              <Field
-                id="code"
-                name="code"
-                type="text"
-                disabled
-                className="p-2 border border-gray-300 rounded"
-              />
-              <ErrorMessage
-                name="code"
-                component="div"
-                className="text-red-500"
-              />
-            </div>
             <div className="flex flex-col">
               <label htmlFor="name" className="mb-1 font-semibold">
                 Nombre:

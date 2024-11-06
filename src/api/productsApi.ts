@@ -6,16 +6,15 @@ import {
   Producto,
   Proveedor,
   UnidadMedida,
-  Client,
 } from './response/types';
 
 const productsApi = systemApi.injectEndpoints({
   endpoints: (builder) => ({
     fetchProductBySku: builder.query<string, string>({
-      query: (sku) => ({ url: `producto/${sku}`, method: 'get' }),
+      query: (sku) => ({ url: `product/${sku}`, method: 'get' }),
     }),
     fetchProducts: builder.query<Producto[], void>({
-      query: () => ({ url: 'producto', method: 'get' }),
+      query: () => ({ url: 'product', method: 'get' }),
       transformResponse: (response: { data: Producto[] }) => response.data,
     }),
     createProduct: builder.mutation<
@@ -25,7 +24,7 @@ const productsApi = systemApi.injectEndpoints({
       }
     >({
       query: ({ request }) => ({
-        url: 'producto',
+        url: 'product',
         data: request,
         method: 'post',
       }),
@@ -64,13 +63,13 @@ const productsApi = systemApi.injectEndpoints({
       }
     >({
       query: ({ request }) => ({
-        url: 'sales',
+        url: 'sale',
         data: request,
         method: 'post',
       }),
     }),
-    fetchClientByCode: builder.query<Client, string>({
-      query: (code) => ({ url: `cliente/${code}`, method: 'get' }),
+    fetchClientByCiNit: builder.query({
+      query: (cinit) => ({ url: `client/${cinit}`, method: 'get' }),
     }),
   }),
   overrideExisting: false,
@@ -86,5 +85,5 @@ export const {
   useFetchProductsQuery,
   useCreateClientMutation,
   useCreateInvoiceMutation,
-  useFetchClientByCodeQuery,
+  useFetchClientByCiNitQuery,
 } = productsApi;
