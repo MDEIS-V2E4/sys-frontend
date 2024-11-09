@@ -15,14 +15,14 @@ describe("App test Register Invoice", () => {
   });
 
   it("renders invoice header the form with all fields", () => {
-    expect(screen.getByLabelText(/Código Cliente:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/CI\/NIT:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Nombre Cliente:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Condición Pago:/i)).toBeInTheDocument();
     //   expect(screen.getByRole('button', { name: /Registrar Cliente/i })).toBeInTheDocument();
   });
 
   it("shows an error if the code and name client is required", async () => {
-    fireEvent.change(screen.getByLabelText(/Código Cliente:/i), {
+    fireEvent.change(screen.getByLabelText(/CI\/NIT:/i), {
       target: { value: "" },
     });
     fireEvent.change(screen.getByLabelText(/Nombre Cliente:/i), {
@@ -32,9 +32,9 @@ describe("App test Register Invoice", () => {
     // Expect an error message
     screen.debug();
     expect(
-      await screen.findByText(/Código de Cliente es requerido/i)
+      await screen.findByText(/CI\/NIT de Cliente es requerido/i)
     ).toBeInTheDocument();
-    // expect(await screen.findByText(/Nombre de Cliente es requerido/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Nombre de Cliente es requerido/i)).toBeInTheDocument();
   });
 
   it("display modal press button Agregar Producto", async () => {
@@ -83,7 +83,7 @@ describe("App test Register Invoice", () => {
 
   it("register invoice without detalle", async () => {
     // Input valid values
-    fireEvent.change(screen.getByLabelText(/Código Cliente:/i), {
+    fireEvent.change(screen.getByLabelText(/CI\/NIT:/i), {
       target: { value: "3" },
     });
     fireEvent.change(screen.getByLabelText(/Nombre Cliente:/i), {
@@ -103,7 +103,7 @@ describe("App test Register Invoice", () => {
 
   it("submits the form with valid data", async () => {
     // Input valid values
-    fireEvent.change(screen.getByLabelText(/Código Cliente:/i), {
+    fireEvent.change(screen.getByLabelText(/CI\/NIT:/i), {
       target: { value: "3" },
     });
 

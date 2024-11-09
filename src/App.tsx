@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ProductList from './components/ProductList';
 import RegisterClient from './components/RegisterClient';
 import RegisterInvoice from './components/RegisterInvoice';
+import ClientList from './components/ClientList';
 const App: React.FC = () => {
   return (
     <Router>
@@ -21,6 +22,11 @@ const App: React.FC = () => {
                 Registrar Factura
               </Link>
             </li>
+            <li>
+              <Link to="/lista-clientes" className="text-blue-500 hover:underline">
+                Listar Clientes
+              </Link>
+            </li>
           </ul>
         </nav>
         {/* Routes */}
@@ -29,6 +35,7 @@ const App: React.FC = () => {
           <Route path="/list" element={<ProductList />} />
           <Route path="/clientes" element={<RegisterClient />} />
           <Route path="/facturas" element={<RegisterInvoice />} />
+          <Route path="/lista-clientes" element={<ClientList />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </div>

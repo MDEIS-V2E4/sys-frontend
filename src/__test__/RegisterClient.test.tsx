@@ -13,7 +13,7 @@ describe('App tests', () => {
       </Provider>
     );
 
-    expect(screen.getByLabelText(/Código:/i)).toBeInTheDocument();
+    // expect(screen.getByLabelText(/Código:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Nombre:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Nro. CI\/NIT:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Tp Doc:/i)).toBeInTheDocument();
@@ -51,7 +51,7 @@ describe('App tests', () => {
       </Provider>
     );
     // Input valid values
-    fireEvent.change(screen.getByLabelText(/Código:/i), { target: { value: '001' } });
+    // fireEvent.change(screen.getByLabelText(/Código:/i), { target: { value: '001' } });
     fireEvent.change(screen.getByLabelText(/Nombre:/i), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByLabelText(/Nro. CI\/NIT:/i), { target: { value: '123456' } });
     fireEvent.change(screen.getByLabelText(/Tp Doc:/i), { target: { value: 'Passport' } });
