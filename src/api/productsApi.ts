@@ -51,7 +51,7 @@ const productsApi = systemApi.injectEndpoints({
       }
     >({
       query: ({ request }) => ({
-        url: 'clientes',
+        url: 'client',
         data: request,
         method: 'post',
       }),
