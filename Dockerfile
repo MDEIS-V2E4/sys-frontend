@@ -1,13 +1,25 @@
-# Usa una imagen ligera de Node.js solo para construir la app
 FROM node:18 AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --frozen-lockfile
+# Copia solo los archivos esenciales primero
+COPY package.json package-lock.json ./
 
-COPY . . 
+# Instala dependencias sin módulos opcionales problemáticos
+RUN rm -rf node_modules && npm install --no-optional
+
+RUN npm install --save-dev rollup
+
+# Verifica si Rollup está correctamente instalado
+RUN npm list rollup
+
+# Copia el código fuente
+COPY . .
+
+# Ejecuta la compilación
 RUN npm run build
+
+
 
 # Usa una imagen ligera para servir los archivos estáticos
 FROM nginx:alpine
