@@ -8,4 +8,9 @@ services:
       tag: latest
     envs:
       - key: VITE_BASE_URL
-        value: htts://sys-backend-app-krqjr.ondigitalocean.app/v1
+        value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+    static_sites:
+      - path: /   # Ruta raíz para tus archivos estáticos
+        preserve_path_prefix: true
+        build_dir: /dist   # La carpeta donde Vite coloca los archivos estáticos generados
+        status: active
