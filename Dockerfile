@@ -1,33 +1,23 @@
-FROM node:18 AS builder
+# Usa la imagen base de node
+FROM node:18
 
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia solo los archivos esenciales primero
-COPY package.json ./
+# Copia los archivos package.json y package-lock.json (si tienes)
+COPY package*.json ./
 
-# Instala dependencias sin módulos opcionales problemáticos
-RUN rm -rf node_modules && npm install --no-optional
+# Instala las dependencias necesarias
+RUN npm install --production
 
-RUN npm install --save-dev rollup
-
-# Verifica si Rollup está correctamente instalado
-RUN npm list rollup
-
-# Copia el código fuente
+# Copia todo el código de la app al contenedor
 COPY . .
 
-# Ejecuta la compilación
+# Construye la app en producción (esto genera los archivos estáticos)
 RUN npm run build
 
+# Expón el puerto que usarás (Vite usa 5173 por defecto en modo dev, pero los archivos estáticos se sirven normalmente en 3000)
+EXPOSE 3000
 
-
-# Usa una imagen ligera para servir los archivos estáticos
-FROM nginx:alpine
-
-# Copia los archivos estáticos de la build de React a Nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Expone el puerto 80 para servir la aplicación
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Usa un servidor estático para servir los archivos generados
+CMD ["npx", "serve", "dist"]
