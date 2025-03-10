@@ -47,4 +47,4 @@ jobs:
         run: doctl registry repository list-tags sys-frontend
 
       - name: Deploy to DigitalOcean App Platform
-        run: doctl apps update 68100e76-44e3-4e48-bfb0-46572601cc14 --spec app.yaml --wait
+        run: doctl apps update 5e1bf833-0eeb-425b-8138-43f0d36a8a4c --spec app.yaml --wait

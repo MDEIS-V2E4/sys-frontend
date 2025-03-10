@@ -7,8 +7,8 @@ WORKDIR /app
 # Copia los archivos package.json y package-lock.json (si tienes)
 COPY package*.json ./
 
-# Instala las dependencias necesarias
-RUN npm install --production
+# Instala todas las dependencias (incluyendo las de desarrollo)
+RUN npm install
 
 # Copia todo el código de la app al contenedor
 COPY . .
