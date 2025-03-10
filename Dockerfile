@@ -3,7 +3,7 @@ FROM node:18 AS builder
 WORKDIR /app
 
 # Copia solo los archivos esenciales primero
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Instala dependencias sin módulos opcionales problemáticos
 RUN rm -rf node_modules && npm install --no-optional
