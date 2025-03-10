@@ -1,0 +1,11 @@
+name: sys-frontend-app
+services:
+  - name: sys-frontend
+    image:
+      registry_type: DOCR
+      registry: dev-registry-2025
+      repository: sys-frontend
+      tag: latest
+    envs:
+      - key: VITE_BASE_URL
+        value: htts://sys-backend-app-krqjr.ondigitalocean.app/v1
