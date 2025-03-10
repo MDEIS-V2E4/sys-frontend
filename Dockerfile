@@ -13,7 +13,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copia los archivos estáticos de la build de React a Nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expone el puerto 80 para servir la aplicación
 EXPOSE 80
