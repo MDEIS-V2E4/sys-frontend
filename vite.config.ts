@@ -8,7 +8,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000, // Configura el puerto aquí
+    port: 8080, // Configura el puerto aquí
   },
   test: {
     globals: true,

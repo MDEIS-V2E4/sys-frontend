@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useFetchClientListQuery } from '../api/clientApi';
+import { useFetchClientListQuery, useDeleteClientMutation } from '../api/clientApi';
 import {
   PencilSquareIcon,
   ArchiveBoxXMarkIcon,
@@ -8,10 +8,21 @@ import {
 
 const ClientList: React.FC = () => {
   const { data: clients = [], isLoading, refetch } = useFetchClientListQuery();
+  const [deleteClient] = useDeleteClientMutation();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
+
+  const handleDeleteClient = async (clientId: string) => {
+    try {
+      await deleteClient({ clientId }).unwrap();
+      console.log('Cliente eliminado correctamente');
+      refetch();
+    } catch (error) {
+      console.error('Error al eliminar cliente', error);
+    }
+  };
 
   return isLoading ? (
     <div>Cargando...</div>
@@ -51,7 +62,7 @@ const ClientList: React.FC = () => {
                     data-testid={'btnGetProduct-'}
                     type="button"
                     className="px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                    onClick={() => {}}
+                    onClick={() => handleDeleteClient(client.id.toString())} 
                   >
                     <ArchiveBoxXMarkIcon className="h-5 w-5" />
                   </button>

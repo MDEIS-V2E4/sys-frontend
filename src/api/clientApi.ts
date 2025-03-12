@@ -7,8 +7,14 @@ const clientApi = systemApi.injectEndpoints({
       query: () => ({ url: 'client/list', method: 'get' }),
       transformResponse: (response: { data: Client[] }) => response.data,
     }),
+    deleteClient: builder.mutation<string, { clientId: string }>({
+      query: ({ clientId }) => ({
+        url: `client/${clientId}`,
+        method: 'delete',
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useFetchClientListQuery } = clientApi;
+export const { useFetchClientListQuery, useDeleteClientMutation } = clientApi;
