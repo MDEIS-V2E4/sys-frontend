@@ -8,6 +8,6 @@ services:
       tag: TAG_PLACEHOLDER
       # deploy_on_push:
       #   enabled: true
-    # envs:
-    #   - key: VITE_BASE_URL
-    #     value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+    envs:
+      - key: VITE_BASE_URL
+        value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
