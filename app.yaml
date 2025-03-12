@@ -1,12 +1,11 @@
 name: sys-frontend-app
-
-static_sites:
+services:
   - name: sys-frontend
-    github:
-      branch: main
-      repo: usuario/sys-frontend  # Cambia esto con tu repo real
+    image:
+      registry_type: DOCR
+      registry: dev-registry-2025
+      repository: sys-frontend
+      tag: latest
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
-    build_command: npm run build
-    output_dir: dist
