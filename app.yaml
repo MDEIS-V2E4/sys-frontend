@@ -1,16 +1,12 @@
 name: sys-frontend-app
-services:
+
+static_sites:
   - name: sys-frontend
-    image:
-      registry_type: DOCR
-      registry: dev-registry-2025
-      repository: sys-frontend
-      tag: latest
+    github:
+      branch: main
+      repo: usuario/sys-frontend  # Cambia esto con tu repo real
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
-    static_sites:
-      - path: /   # Ruta raíz para tus archivos estáticos
-        preserve_path_prefix: true
-        build_dir: /dist   # La carpeta donde Vite coloca los archivos estáticos generados
-        status: active
+    build_command: npm run build
+    output_dir: dist
