@@ -6,8 +6,6 @@ services:
       registry: dev-registry-2025
       repository: sys-frontend
       tag: latest
-      deploy_on_push:
-        enabled: true
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
