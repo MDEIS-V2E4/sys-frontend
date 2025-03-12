@@ -48,3 +48,5 @@ jobs:
 
       - name: Deploy to DigitalOcean App Platform
         run: doctl apps update 5e1bf833-0eeb-425b-8138-43f0d36a8a4c --spec app.yaml --wait
+        env:
+          VITE_BASE_URL: https://sys-backend-app-krqjr.ondigitalocean.app/v1
