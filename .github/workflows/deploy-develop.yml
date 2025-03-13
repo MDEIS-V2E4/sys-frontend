@@ -23,11 +23,15 @@ jobs:
       - name: Authenticate with DigitalOcean
         run: doctl auth init --access-token ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
 
+      - name: Authenticate with GitHub
+        run: git config --global url."https://github.com".insteadOf git://github.com
+        env:
+          GH_TOKEN: ${{ vars.GH_PAT }}
+
       - name: Deploy to DigitalOcean App Platform
         run: doctl apps update 02ba162f-a49f-4fe0-a362-425ae8e83c14 --spec app.yaml
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
-          GITHUB_TOKEN: ${{ vars.GH_PAT }}
 
 
 # on:
