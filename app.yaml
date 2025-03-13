@@ -2,8 +2,8 @@ name: sys-frontend-app
 static_sites:
   - name: sys-frontend-develop
     github:
+      repo: MDEIS-V2E4/sys-frontend
       branch: develop
-      deploy_on_push: true
     build_command: npm install && npm run build
     output_dir: dist
     envs:
@@ -12,8 +12,8 @@ static_sites:
 
   - name: sys-frontend-stage
     github:
+      repo: MDEIS-V2E4/sys-frontend
       branch: stage
-      deploy_on_push: true
     build_command: npm install && npm run build
     output_dir: dist
     envs:
@@ -22,8 +22,8 @@ static_sites:
 
   - name: sys-frontend-prod
     github:
+      repo: MDEIS-V2E4/sys-frontend
       branch: master
-      deploy_on_push: true
     build_command: npm install && npm run build
     output_dir: dist
     envs:
