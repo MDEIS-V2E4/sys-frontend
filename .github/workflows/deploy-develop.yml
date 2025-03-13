@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-      - stage
-      - master
 
 jobs:
   deploy:
@@ -23,21 +21,10 @@ jobs:
           doctl version  # Verifica si `doctl` se instaló correctamente
 
       - name: Authenticate with DigitalOcean
-        run: doctl auth init --access-token ${{ secrets.DO_ACCESS_TOKEN }}
+        run: doctl auth init --access-token ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Deploy to DigitalOcean App Platform
-        run: |
-          case "${{ github.ref }}" in
-            "refs/heads/develop")
-              doctl apps update APP_ID_TEST --spec app.yaml
-              ;;
-            "refs/heads/stage")
-              doctl apps update APP_ID_STAGE --spec app.yaml
-              ;;
-            "refs/heads/master")
-              doctl apps update APP_ID_PROD --spec app.yaml
-              ;;
-          esac
+        run: doctl apps update ${{ vars.DIGITALOCEAN_APP_ID_DEVELOP }} --spec app.yaml
 
 
 # on:

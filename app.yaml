@@ -1,6 +1,6 @@
 name: sys-frontend-app
 static_sites:
-  - name: sys-frontend-testing
+  - name: sys-frontend-develop
     github:
       branch: develop
       deploy_on_push: true
