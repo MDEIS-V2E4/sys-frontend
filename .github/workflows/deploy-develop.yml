@@ -25,6 +25,9 @@ jobs:
 
       - name: Deploy to DigitalOcean App Platform
         run: doctl apps update ${{ vars.DIGITALOCEAN_APP_ID_DEVELOP }} --spec app.yaml
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 # on:
