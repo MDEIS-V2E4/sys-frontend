@@ -1,13 +1,46 @@
 name: sys-frontend-app
-services:
-  - name: sys-frontend
-    image:
-      registry_type: DOCR
-      registry: dev-registry-2025
-      repository: sys-frontend
-      tag: TAG_PLACEHOLDER
-      # deploy_on_push:
-      #   enabled: true
-    # envs:
-    #   - key: VITE_BASE_URL
-    #     value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+static_sites:
+  - name: sys-frontend-testing
+    github:
+      branch: develop
+      deploy_on_push: true
+    build_command: npm install && npm run build
+    output_dir: dist
+    envs:
+      - key: VITE_BASE_URL
+        value: https://sys-backend-develop.ondigitalocean.app/v1
+
+  - name: sys-frontend-stage
+    github:
+      branch: stage
+      deploy_on_push: true
+    build_command: npm install && npm run build
+    output_dir: dist
+    envs:
+      - key: VITE_BASE_URL
+        value: https://sys-backend-stage.ondigitalocean.app/v1
+
+  - name: sys-frontend-prod
+    github:
+      branch: master
+      deploy_on_push: true
+    build_command: npm install && npm run build
+    output_dir: dist
+    envs:
+      - key: VITE_BASE_URL
+        value: https://sys-backend-prod.ondigitalocean.app/v1
+
+
+# name: sys-frontend-app
+# services:
+#   - name: sys-frontend
+#     image:
+#       registry_type: DOCR
+#       registry: dev-registry-2025
+#       repository: sys-frontend
+#       tag: TAG_PLACEHOLDER
+#       # deploy_on_push:
+#       #   enabled: true
+#     envs:
+#       - key: VITE_BASE_URL
+#         value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
