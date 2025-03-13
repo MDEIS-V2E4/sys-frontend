@@ -6,6 +6,8 @@ static_sites:
       branch: develop
     build_command: npm install && npm run build
     output_dir: dist
+    routes:
+      - path: /develop
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-develop.ondigitalocean.app/v1
@@ -16,6 +18,8 @@ static_sites:
       branch: stage
     build_command: npm install && npm run build
     output_dir: dist
+    routes:
+      - path: /stage
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-stage.ondigitalocean.app/v1
@@ -26,6 +30,8 @@ static_sites:
       branch: master
     build_command: npm install && npm run build
     output_dir: dist
+    routes:
+      - path: /
     envs:
       - key: VITE_BASE_URL
         value: https://sys-backend-prod.ondigitalocean.app/v1
