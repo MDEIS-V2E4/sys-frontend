@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ vars.GH_PAT }}
 
       - name: Deploy to DigitalOcean App Platform
-        run: doctl apps update 02ba162f-a49f-4fe0-a362-425ae8e83c14 --spec app.yaml
+        run: doctl apps update 02ba162f-a49f-4fe0-a362-425ae8e83c14 --spec app.yaml --wait
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
 
