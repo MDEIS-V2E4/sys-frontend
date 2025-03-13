@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Print GitHub actor (user executing the workflow)
+        run: |
+          echo "The workflow is triggered by: ${{ github.actor }}"
+        
       - name: Checkout code
         uses: actions/checkout@v3
 
