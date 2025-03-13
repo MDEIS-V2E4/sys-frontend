@@ -8,7 +8,7 @@ static_sites:
     output_dir: dist
     envs:
       - key: VITE_BASE_URL
-        value: https://sys-backend-develop.ondigitalocean.app/v1
+        value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
 
   # - name: sys-frontend-stage
   #   github:
