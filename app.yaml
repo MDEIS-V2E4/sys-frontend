@@ -1,4 +1,4 @@
-name: sys-frontend-app
+name: sys-frontend-develop
 static_sites:
   - name: sys-frontend-develop
     github:
