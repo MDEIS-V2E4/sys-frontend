@@ -25,7 +25,7 @@ const Notification: React.FC<NotificationProps> = ({
     if (show) {
       setTimeout(() => {
         setShow(false);
-      }, 3000);
+      }, 5000);
     }
   }, [show]);
 
