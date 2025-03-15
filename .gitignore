@@ -23,4 +23,9 @@ dist-ssr
 *.sw?
 package-lock.json
 yarn.lock
-.env
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

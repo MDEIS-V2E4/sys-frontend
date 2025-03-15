@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-export type NotificationType = "success" | "warning" | "danger";
+import { useEffect } from 'react';
+export type NotificationType = 'success' | 'warning' | 'danger';
 
 interface NotificationProps {
   message: string;
@@ -16,23 +16,23 @@ const Notification: React.FC<NotificationProps> = ({
 }) => {
   // Define el color de fondo basado en el tipo de notificación
   const backgroundColor = {
-    success: "bg-green-500",
-    warning: "bg-yellow-500",
-    danger: "bg-red-500",
+    success: 'bg-green-500',
+    warning: 'bg-yellow-500',
+    danger: 'bg-red-500',
   }[type];
 
   useEffect(() => {
     if (show) {
       setTimeout(() => {
         setShow(false);
-      }, 3000);
+      }, 5000);
     }
   }, [show]);
 
   return (
     <div
       className={`fixed top-4 right-4 ${backgroundColor} text-white px-4 py-2 rounded-md shadow-md transition-opacity duration-300 ${
-        show ? "opacity-100" : "opacity-0 pointer-events-none"
+        show ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
       {message}
