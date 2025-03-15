@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
-import { useFetchEmployeeListQuery } from "../api/employeeApi";
-import {
-  PencilSquareIcon,
-  ArchiveBoxXMarkIcon,
-} from "@heroicons/react/24/outline";
-import ModalEmployee from "./ModalEmployee";
-import Notification, { NotificationType } from "./Notification";
+import { useEffect, useState } from 'react';
+import { useFetchEmployeeListQuery } from '../api/employeeApi';
+import ModalEmployee from './ModalEmployee';
+import Notification, { NotificationType } from './Notification';
 
 const EmployeeList: React.FC = () => {
   const {
@@ -16,8 +12,8 @@ const EmployeeList: React.FC = () => {
 
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [typeNotif, setTypeNotif] = useState<NotificationType>("success");
+  const [message, setMessage] = useState<string>('');
+  const [typeNotif, setTypeNotif] = useState<NotificationType>('success');
 
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
@@ -26,8 +22,8 @@ const EmployeeList: React.FC = () => {
     refetch();
     if (isRegistered) {
       // closeModal();
-      setTypeNotif("success");
-      setMessage("Registrado correctamente");
+      setTypeNotif('success');
+      setMessage('Registrado correctamente');
       setShow(true);
     }
   };
@@ -79,7 +75,7 @@ const EmployeeList: React.FC = () => {
                 </td>
                 <td className="px-4 py-2">{employee.job_title}</td>
                 <td className="px-4 py-2">
-                  {new Date(employee.hire_date).toLocaleDateString("es-ES")}
+                  {new Date(employee.hire_date).toLocaleDateString('es-ES')}
                 </td>
                 <td className="px-4 py-2">{employee.salary}</td>
                 <td className="px-4 py-2">{employee.phone}</td>

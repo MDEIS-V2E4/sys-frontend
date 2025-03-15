@@ -1,36 +1,35 @@
-import React from "react";
-import { FC, useState } from "react";
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
-} from "@headlessui/react";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
+} from '@headlessui/react';
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import {
   useCreateEmployeeMutation,
   useFetchEmployeeListQuery,
-} from "../api/employeeApi";
-import Notification from "./Notification";
-import { EmployeeRequest } from "../api/request/types";
+} from '../api/employeeApi';
+import Notification from './Notification';
+import { EmployeeRequest } from '../api/request/types';
 
 const validationSchema = Yup.object({
-  first_name: Yup.string().required("El nombre es obligatorio"),
-  last_name: Yup.string().required("El apellido es obligatorio"),
-  job_title: Yup.string().required("El cargo es obligatorio"),
-  hire_date: Yup.date().required("La fecha de contratación es obligatoria"),
+  first_name: Yup.string().required('El nombre es obligatorio'),
+  last_name: Yup.string().required('El apellido es obligatorio'),
+  job_title: Yup.string().required('El cargo es obligatorio'),
+  hire_date: Yup.date().required('La fecha de contratación es obligatoria'),
   salary: Yup.number()
-    .required("El salario es obligatorio")
-    .min(0.01, "El salario debe ser mayor que cero"),
+    .required('El salario es obligatorio')
+    .min(0.01, 'El salario debe ser mayor que cero'),
   phone: Yup.string(),
   email: Yup.string()
-    .email("El formato del email es inválido")
-    .required("El email es obligatorio"),
+    .email('El formato del email es inválido')
+    .required('El email es obligatorio'),
   department_id: Yup.number()
-    .required("El ID del departamento es obligatorio")
-    .min(1, "Debe seleccionar una opción"),
+    .required('El ID del departamento es obligatorio')
+    .min(1, 'Debe seleccionar una opción'),
   //   manager_id: Yup.number().required("El ID del jefe es obligatorio"),
   //   status: Yup.string().required("El estado es obligatorio"),
 });
@@ -48,13 +47,12 @@ const ModalEmployee: React.FC<ModalEmployeeProps> = ({
 }) => {
   const [createEmployee] = useCreateEmployeeMutation();
   const [show, setShow] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
 
   const {
     data: employees = [],
     isLoading,
     error,
-    refetch,
   } = useFetchEmployeeListQuery();
 
   const onSubmit = (values: EmployeeRequest) => {
@@ -67,9 +65,10 @@ const ModalEmployee: React.FC<ModalEmployeeProps> = ({
       console.log(formValues);
       createEmployee({ request: formValues }).unwrap();
       handleAddEmployee(true);
+      setMessage('Guardado correctamente');
       closeModal();
     } catch (error) {
-      console.error("Error al registrar el empleado: ", error);
+      console.error('Error al registrar el empleado: ', error);
     }
   };
 
@@ -108,16 +107,16 @@ const ModalEmployee: React.FC<ModalEmployeeProps> = ({
 
                 <Formik
                   initialValues={{
-                    first_name: "",
-                    last_name: "",
-                    job_title: "",
-                    hire_date: "",
+                    first_name: '',
+                    last_name: '',
+                    job_title: '',
+                    hire_date: '',
                     salary: 0,
-                    phone: "",
-                    email: "",
+                    phone: '',
+                    email: '',
                     department_id: 0,
                     manager_id: 0,
-                    status: "Active",
+                    status: 'Active',
                   }}
                   validationSchema={validationSchema}
                   onSubmit={onSubmit}
