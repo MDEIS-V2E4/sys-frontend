@@ -1,0 +1,20 @@
+ingress:
+  rules:
+  - component:
+      name: sys-frontend-prod
+    match:
+      path:
+        prefix: /
+name: sys-frontend-prod
+region: sfo
+static_sites:
+- build_command: npm install && npm run build
+  envs:
+  - key: VITE_BASE_URL
+    scope: BUILD_TIME
+    value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+  github:
+    branch: master
+    repo: MDEIS-V2E4/sys-frontend
+  name: sys-frontend-prod
+  output_dir: dist
