@@ -1,14 +1,23 @@
+ingress:
+  rules:
+  - component:
+      name: sys-frontend-develop
+    match:
+      path:
+        prefix: /
 name: sys-frontend-develop
+region: sfo
 static_sites:
-  - name: sys-frontend-develop
-    github:
-      repo: MDEIS-V2E4/sys-frontend
-      branch: develop
-    build_command: npm install && npm run build
-    output_dir: dist
-    envs:
-      - key: VITE_BASE_URL
-        value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+- build_command: npm install && npm run build
+  envs:
+  - key: VITE_BASE_URL
+    scope: BUILD_TIME
+    value: https://sys-backend-app-krqjr.ondigitalocean.app/v1
+  github:
+    branch: develop
+    repo: MDEIS-V2E4/sys-frontend
+  name: sys-frontend-develop
+  output_dir: dist
 
   # - name: sys-frontend-stage
   #   github:
