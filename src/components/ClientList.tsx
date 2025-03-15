@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
-import { useFetchClientListQuery, useDeleteClientMutation } from '../api/clientApi';
+import {
+  useFetchClientListQuery,
+  useDeleteClientMutation,
+} from '../api/clientApi';
 import {
   PencilSquareIcon,
   ArchiveBoxXMarkIcon,
-  
 } from '@heroicons/react/24/outline';
 
 const ClientList: React.FC = () => {
@@ -49,7 +51,7 @@ const ClientList: React.FC = () => {
                 <td className="px-4 py-2">{client.ci_nit}</td>
                 <td className="px-4 py-2">{client.document_type}</td>
                 <td className="px-4 py-2">{client.email}</td>
-                <td className='flex space-x-2'>
+                <td className="flex space-x-2">
                   <button
                     data-testid={'btnGetProduct-'}
                     type="button"
@@ -62,7 +64,7 @@ const ClientList: React.FC = () => {
                     data-testid={'btnGetProduct-'}
                     type="button"
                     className="px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                    onClick={() => handleDeleteClient(client.id.toString())} 
+                    onClick={() => handleDeleteClient(client.id.toString())}
                   >
                     <ArchiveBoxXMarkIcon className="h-5 w-5" />
                   </button>
