@@ -28,7 +28,7 @@ jobs:
         run: doctl auth init --access-token ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Deploy to DigitalOcean App Platform
-        run: doctl apps update 02ba162f-a49f-4fe0-a362-425ae8e83c14 --spec app.yaml --wait --update-sources
+        run: doctl apps update 02ba162f-a49f-4fe0-a362-425ae8e83c14 --spec .app/app-develop.yaml --wait --update-sources
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ vars.DIGITALOCEAN_ACCESS_TOKEN }}
 
