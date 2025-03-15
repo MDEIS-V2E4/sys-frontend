@@ -30,7 +30,7 @@ const ClientList: React.FC = () => {
     <div>Cargando...</div>
   ) : (
     <div className="p-4 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Lista de Clientesssss</h2>
+      <h2 className="text-xl font-semibold mb-4">Lista de Clientes</h2>
       {clients.length === 0 ? (
         <p>No hay clientes registrados.</p>
       ) : (
