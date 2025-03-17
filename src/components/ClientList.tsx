@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   useFetchClientListQuery,
   useDeleteClientMutation,
@@ -9,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 const ClientList: React.FC = () => {
+  const navigate = useNavigate();
   const { data: clients = [], isLoading, refetch } = useFetchClientListQuery();
   const [deleteClient] = useDeleteClientMutation();
 
@@ -24,6 +26,10 @@ const ClientList: React.FC = () => {
     } catch (error) {
       console.error('Error al eliminar cliente', error);
     }
+  };
+
+  const handleSelect = (id: string) => {
+    navigate(`/editar-cliente/${id}`);
   };
 
   return isLoading ? (
@@ -56,7 +62,9 @@ const ClientList: React.FC = () => {
                     data-testid={'btnGetProduct-'}
                     type="button"
                     className="px-2 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
-                    onClick={() => {}}
+                    onClick={() => {
+                      handleSelect(client.id.toString());
+                    }}
                   >
                     <PencilSquareIcon className="h-5 w-5" />
                   </button>

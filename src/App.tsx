@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 // import ProductForm from './components/ProductForm';
 import ProductList from "./components/ProductList";
 import RegisterClient from "./components/RegisterClient";
+import EditClient from "./components/EditClient";
 import RegisterInvoice from "./components/RegisterInvoice";
 import ClientList from "./components/ClientList";
 import EmployeeList from "./components/EmployeeList";
@@ -46,6 +47,7 @@ const App: React.FC = () => {
           <Route path="/" element={<RegisterClient />} />
           <Route path="/list" element={<ProductList />} />
           <Route path="/clientes" element={<RegisterClient />} />
+          <Route path="/editar-cliente/:id" element={<EditClient />} />
           <Route path="/facturas" element={<RegisterInvoice />} />
           <Route path="/lista-clientes" element={<ClientList />} />
           <Route path="/lista-empleados" element={<EmployeeList />} />
