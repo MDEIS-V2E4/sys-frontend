@@ -1,4 +1,5 @@
-import { Client, ClientRequest } from './response/types';
+import { Client } from './response/types';
+import { ClientRequest } from './request/types';
 import { systemApi } from './baseQuery';
 
 const clientApi = systemApi.injectEndpoints({
