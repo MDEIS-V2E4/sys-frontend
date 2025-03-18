@@ -126,7 +126,7 @@ const RegisterClient: FC = () => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="email" className="mb-1 font-semibold">
-                Email:
+                Correo:
               </label>
               <Field
                 id="email"
@@ -139,7 +139,7 @@ const RegisterClient: FC = () => {
                 className="text-red-500"
               />
             </div>
-            <div className="bg-white-50 py-3 sm:flex justify-between">
+            <div className="bg-white-50 py-3 flex justify-between">
               <button
                 type="button"
                 className="w-auto px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 text-sm sm:text-base"
