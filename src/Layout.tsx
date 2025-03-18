@@ -10,8 +10,7 @@ import {
 } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
-import { PlusIcon } from "@heroicons/react/24/outline";
-
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 const user = {
   name: 'Tom Cook',
@@ -162,20 +161,21 @@ const Layout = () => {
 
           <DisclosurePanel className="md:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              {navigation.map((item) => (
+                {navigation.map((item) => (
                 <DisclosureButton
-                  key={item.name}
-                  as="a"
-                  href={item.href}
+                      key={item.name}
+                  // as="a"
+                  // href={item.href}
                   //   aria-current={item.current ? 'page' : undefined}
                   className={classNames(
                     'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block rounded-md px-3 py-2 text-base font-medium',
                   )}
-                >
-                  {item.name}
+                  onClick={()=>navigate(item.href)}
+                    >
+                      {item.name}
                 </DisclosureButton>
-              ))}
+                ))}
             </div>
             <div className="border-t border-gray-700 pt-4 pb-3">
               <div className="flex items-center px-5">
@@ -211,14 +211,15 @@ const Layout = () => {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="flex items-center text-3xl font-bold tracking-tight text-gray-900">
               {pageTitle}{' '}
-              {addView &&
-              <button
-              type="submit"
-              className="ml-2 px-2 bg-purple-600 text-white rounded hover:bg-purple-800"
-              onClick={handleClickAdd}
-            >
-              <PlusIcon className="h-8 w-6 text-white" />
-            </button> }
+              {addView && (
+                <button
+                  type="submit"
+                  className="ml-2 px-2 bg-purple-600 text-white rounded hover:bg-purple-800"
+                  onClick={handleClickAdd}
+                >
+                  <PlusIcon className="h-8 w-6 text-white" />
+                </button>
+              )}
             </h1>
           </div>
         </header>
