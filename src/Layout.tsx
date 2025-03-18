@@ -21,14 +21,14 @@ const user = {
 
 const navigationItems = [
   { name: 'Dashboard', href: '/', title: 'Dashboard' },
-  { name: 'Clients', href: '/clientes', title: 'Clients', add: '/cliente' },
+  { name: 'Clientes', href: '/clientes', title: 'Clients', add: '/cliente' },
   {
-    name: 'Employees',
+    name: 'Empleados',
     href: '/empleados',
     title: 'Employees',
     add: '/empleado',
   },
-  { name: 'Products', href: '/productos', title: 'Products', add: '/producto' },
+  { name: 'Productos', href: '/productos', title: 'Products', add: '/producto' },
 ];
 
 function classNames(...classes: string[]) {

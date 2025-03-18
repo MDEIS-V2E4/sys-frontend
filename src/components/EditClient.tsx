@@ -155,7 +155,7 @@ const RegisterClient: FC = () => {
                 className="text-red-500"
               />
             </div>
-            <div className="bg-white-50 py-3 sm:flex justify-between">
+            <div className="bg-white-50 py-3 flex justify-between">
               <button
                 type="button"
                 className="w-auto px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 text-sm sm:text-base"
