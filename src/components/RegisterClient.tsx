@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers  } from "formik";
+import { useNavigate } from 'react-router-dom';
 import { FC, useState } from "react";
 import * as Yup from "yup";
 import { ClientRequest } from "../api/request/types";
@@ -8,6 +9,7 @@ import Notification from "./Notification";
 
 
 const RegisterClient: FC = () => {
+  const navigate = useNavigate();
   const initialValues: ClientRequest = {
     name: '',
     ciNit: '',
@@ -43,6 +45,7 @@ const RegisterClient: FC = () => {
       setShow(true);
       resetForm();
       setSubmitting(false);
+      navigate('/clientes');
     } catch (error) {
       console.error("Failed to register product", error);
     }
@@ -136,13 +139,23 @@ const RegisterClient: FC = () => {
                 className="text-red-500"
               />
             </div>
-            <button
+            <div className="bg-white-50 py-3 sm:flex justify-between">
+              <button
+                type="button"
+                className="w-auto px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 text-sm sm:text-base"
+                onClick={() => navigate('/clientes')}
+              >
+                Cancelar
+              </button>
+              <button
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Cargando..." : "Registrar Cliente"}
             </button>
+            </div>
+            
           </Form>
         )}
       </Formik>

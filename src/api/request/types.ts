@@ -34,14 +34,13 @@ export interface InvoiceItemRequest {
   subTotal: number;
 }
 
-
 export interface EmployeeRequest {
-  // id: number;
+  id?: number;
   first_name: string;
   last_name: string;
   email?: string;
   phone?: string;
-  hire_date: string; 
+  hire_date: string;
   job_title?: string;
   salary?: number;
   department_id?: number;

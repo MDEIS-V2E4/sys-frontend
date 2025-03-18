@@ -58,7 +58,7 @@ const RegisterClient: FC = () => {
       setShow(true);
       resetForm();
       setSubmitting(false);
-      navigate('/lista-clientes');
+      navigate('/clientes');
     } catch (error) {
       console.error('Failed to register product', error);
     }
@@ -155,13 +155,22 @@ const RegisterClient: FC = () => {
                 className="text-red-500"
               />
             </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Cargando...' : 'Registrar Cliente'}
-            </button>
+            <div className="bg-white-50 py-3 sm:flex justify-between">
+              <button
+                type="button"
+                className="w-auto px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 text-sm sm:text-base"
+                onClick={() => navigate('/clientes')}
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Cargando...' : 'Editar cliente'}
+              </button>
+            </div>
           </Form>
         )}
       </Formik>
