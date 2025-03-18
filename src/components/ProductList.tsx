@@ -9,8 +9,13 @@ import { useFetchProductsQuery } from '../api/productsApi';
 
 const ProductList: React.FC = () => {
   const navigate = useNavigate();
-  const { data: products = [], isLoading, error, refetch } = useFetchProductsQuery();
-  
+  const {
+    data: products = [],
+    isLoading,
+    error,
+    refetch,
+  } = useFetchProductsQuery();
+
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
@@ -49,11 +54,11 @@ const ProductList: React.FC = () => {
   if (error) return <div>Failed to load products.</div>;
 
   return (
-    <div className="p-4 w-full mx-auto bg-white shadow-md rounded-lg">
-      {products.length === 0 ? (
-        <p>No hay productos registrados.</p>
-      ) : (
-        <>
+    <>
+      <div className="p-4 w-full mx-auto bg-white shadow-md rounded-lg">
+        {products.length === 0 ? (
+          <p>No hay productos registrados.</p>
+        ) : (
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-gray-200">
@@ -89,32 +94,31 @@ const ProductList: React.FC = () => {
               ))}
             </tbody>
           </table>
-
-          <div className="flex justify-between">
-            <p className="mt-4 text-sm text-gray-600">
-              Mostrando {offset + 1} a{' '}
-              {Math.min(offset + itemsPerPage, products.length)} de{' '}
-              {products.length} resultados
-            </p>
-            <ReactPaginate
-              previousLabel="<"
-              nextLabel=">"
-              breakLabel="..."
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName="flex justify-center mt-4 space-x-2"
-              pageClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              activeClassName="bg-purple-600 text-white hover:bg-purple-800"
-              previousClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              nextClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              disabledClassName="text-gray-400 cursor-not-allowed"
-            />
-          </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+      <div className="flex justify-between">
+        <p className="mt-4 text-sm text-gray-600">
+          Mostrando {offset + 1} a{' '}
+          {Math.min(offset + itemsPerPage, products.length)} de{' '}
+          {products.length} resultados
+        </p>
+        <ReactPaginate
+          previousLabel="<"
+          nextLabel=">"
+          breakLabel="..."
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageChange}
+          containerClassName="flex justify-center mt-4 space-x-2"
+          pageClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          activeClassName="bg-purple-600 text-white hover:bg-purple-800"
+          previousClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          nextClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          disabledClassName="text-gray-400 cursor-not-allowed"
+        />
+      </div>
+    </>
   );
 };
 

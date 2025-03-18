@@ -37,7 +37,6 @@ const ClientList: React.FC = () => {
     navigate(`/cliente/${id}`);
   };
 
-  // Cálculo de paginación
   const offset = currentPage * itemsPerPage;
   const paginatedClients = clients.slice(offset, offset + itemsPerPage);
   const pageCount = Math.ceil(clients.length / itemsPerPage);
@@ -49,11 +48,11 @@ const ClientList: React.FC = () => {
   return isLoading ? (
     <div>Cargando...</div>
   ) : (
-    <div className="p-4 mx-auto bg-white shadow-md rounded-lg">
-      {clients.length === 0 ? (
-        <p>No hay clientes registrados.</p>
-      ) : (
-        <>
+    <>
+      <div className="p-4 mx-auto bg-white shadow-md rounded-lg overflow-auto max-w-full">
+        {clients.length === 0 ? (
+          <p>No hay clientes registrados.</p>
+        ) : (
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-gray-200">
@@ -91,31 +90,31 @@ const ClientList: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-between">
-            <p className="mt-4 text-sm text-gray-600">
-              Mostrando {offset + 1} a{' '}
-              {Math.min(offset + itemsPerPage, clients.length)} de{' '}
-              {clients.length} resultados
-            </p>
-            <ReactPaginate
-              previousLabel="<"
-              nextLabel=">"
-              breakLabel="..."
-              pageCount={pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName="flex justify-center mt-4 space-x-2"
-              pageClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              activeClassName="bg-purple-600 text-white hover:bg-purple-800"
-              previousClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              nextClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              disabledClassName="text-gray-400 cursor-not-allowed"
-            />
-          </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
+      <div className="flex justify-between">
+        <p className="mt-4 text-sm text-gray-600">
+          Mostrando {offset + 1} a{' '}
+          {Math.min(offset + itemsPerPage, clients.length)} de {clients.length}{' '}
+          resultados
+        </p>
+        <ReactPaginate
+          previousLabel="<"
+          nextLabel=">"
+          breakLabel="..."
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageChange}
+          containerClassName="flex justify-center mt-4 space-x-2"
+          pageClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          activeClassName="bg-purple-600 text-white hover:bg-purple-800"
+          previousClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          nextClassName="px-3 py-1 border rounded hover:bg-gray-200"
+          disabledClassName="text-gray-400 cursor-not-allowed"
+        />
+      </div>
+    </>
   );
 };
 
