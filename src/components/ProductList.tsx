@@ -106,7 +106,7 @@ const ProductList: React.FC = () => {
               onPageChange={handlePageChange}
               containerClassName="flex justify-center mt-4 space-x-2"
               pageClassName="px-3 py-1 border rounded hover:bg-gray-200"
-              activeClassName="bg-purple-700 text-white"
+              activeClassName="bg-purple-600 text-white hover:bg-purple-800"
               previousClassName="px-3 py-1 border rounded hover:bg-gray-200"
               nextClassName="px-3 py-1 border rounded hover:bg-gray-200"
               disabledClassName="text-gray-400 cursor-not-allowed"
