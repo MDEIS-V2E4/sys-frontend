@@ -55,66 +55,68 @@ const EmployeeList: React.FC = () => {
   };
 
   return isLoading ? (
-    <div>Cargando...</div>
+    <div className="flex justify-center items-center h-64">
+      <div className="spinner"></div>
+    </div>
   ) : (
     <>
       <div className="p-4 bg-white shadow-md rounded-lg overflow-auto max-w-full">
         {employees.length === 0 ? (
           <p>No hay empleados registrados.</p>
         ) : (
-            <table className="min-w-full table-auto relative">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="px-2 py-2 text-left">Nombre Completo</th>
-                  <th className="px-2 py-2 text-left w-8">Cargo</th>
-                  <th className="px-2 py-2 text-left w-8">F. de Contrato</th>
-                  <th className="px-2 py-2 text-left w-8">Salario $us</th>
-                  <th className="px-2 py-2 text-left w-8">Telf.</th>
-                  <th className="px-2 py-2 text-left">Email</th>
-                  <th className="px-2 py-2 text-left w-8">Area</th>
-                  <th className="px-2 py-2 text-left">Jefe</th>
-                  <th className="px-2 py-2 text-left">Estado</th>
-                  <th className="px-2 py-2 text-left sticky right-0 bg-gray-200 z-10"></th>
+          <table className="min-w-full table-auto relative">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-2 py-2 text-left">Nombre Completo</th>
+                <th className="px-2 py-2 text-left w-8">Cargo</th>
+                <th className="px-2 py-2 text-left w-8">F. de Contrato</th>
+                <th className="px-2 py-2 text-left w-8">Salario $us</th>
+                <th className="px-2 py-2 text-left w-8">Telf.</th>
+                <th className="px-2 py-2 text-left">Email</th>
+                <th className="px-2 py-2 text-left w-8">Area</th>
+                <th className="px-2 py-2 text-left">Jefe</th>
+                <th className="px-2 py-2 text-left">Estado</th>
+                <th className="px-2 py-2 text-left sticky right-0 bg-gray-200 z-10"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedEmployees.map((employee, index: number) => (
+                <tr key={index} className="border-t">
+                  <td className="px-2 py-2">
+                    {employee.first_name} {employee.last_name}
+                  </td>
+                  <td className="px-2 py-2">{employee.job_title}</td>
+                  <td className="px-2 py-2">
+                    {new Date(employee.hire_date).toLocaleDateString('es-ES')}
+                  </td>
+                  <td className="px-2 py-2">{Number(employee.salary)}</td>
+                  <td className="px-2 py-2">{employee.phone}</td>
+                  <td className="px-2 py-2">{employee.email}</td>
+                  <td className="px-2 py-2">{employee.department_name}</td>
+                  <td className="px-2 py-2">{employee.manager_name}</td>
+                  <td className="px-2 py-2">{employee.status}</td>
+                  <td className="right-0 bg-white py-2 flex space-x-1 justify-end z-20">
+                    <button
+                      type="button"
+                      className="px-2 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                      onClick={() => handleSelect(employee.id.toString())}
+                    >
+                      <PencilSquareIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      className="px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                      onClick={() =>
+                        handleDeleteEmployee(employee.id.toString())
+                      }
+                    >
+                      <ArchiveBoxXMarkIcon className="h-5 w-5" />
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {paginatedEmployees.map((employee, index: number) => (
-                  <tr key={index} className="border-t">
-                    <td className="px-2 py-2">
-                      {employee.first_name} {employee.last_name}
-                    </td>
-                    <td className="px-2 py-2">{employee.job_title}</td>
-                    <td className="px-2 py-2">
-                      {new Date(employee.hire_date).toLocaleDateString('es-ES')}
-                    </td>
-                    <td className="px-2 py-2">{Number(employee.salary)}</td>
-                    <td className="px-2 py-2">{employee.phone}</td>
-                    <td className="px-2 py-2">{employee.email}</td>
-                    <td className="px-2 py-2">{employee.department_name}</td>
-                    <td className="px-2 py-2">{employee.manager_name}</td>
-                    <td className="px-2 py-2">{employee.status}</td>
-                    <td className="right-0 bg-white py-2 flex space-x-1 justify-end z-20">
-                      <button
-                        type="button"
-                        className="px-2 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
-                        onClick={() => handleSelect(employee.id.toString())}
-                      >
-                        <PencilSquareIcon className="h-5 w-5" />
-                      </button>
-                      <button
-                        type="button"
-                        className="px-2 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                        onClick={() =>
-                          handleDeleteEmployee(employee.id.toString())
-                        }
-                      >
-                        <ArchiveBoxXMarkIcon className="h-5 w-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
       <div className="flex justify-between">

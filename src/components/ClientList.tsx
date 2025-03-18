@@ -46,7 +46,9 @@ const ClientList: React.FC = () => {
   };
 
   return isLoading ? (
-    <div>Cargando...</div>
+    <div className="flex justify-center items-center h-64">
+      <div className="spinner"></div>
+    </div>
   ) : (
     <>
       <div className="p-4 mx-auto bg-white shadow-md rounded-lg overflow-auto max-w-full">

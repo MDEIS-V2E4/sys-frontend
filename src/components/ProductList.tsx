@@ -50,7 +50,12 @@ const ProductList: React.FC = () => {
     setCurrentPage(selected);
   };
 
-  if (isLoading) return <div>Loading products...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="spinner"></div>
+      </div>
+    );
   if (error) return <div>Failed to load products.</div>;
 
   return (
