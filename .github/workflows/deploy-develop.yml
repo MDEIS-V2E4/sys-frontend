@@ -16,6 +16,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Run tests
+        run: |
+          npm run test
+
       - name: Install DigitalOcean CLI
         run: |
           curl -fsSL https://github.com/digitalocean/doctl/releases/download/v1.123.0/doctl-1.123.0-linux-amd64.tar.gz -o doctl.tar.gz
