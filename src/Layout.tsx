@@ -214,7 +214,7 @@ const Layout = () => {
               {addView &&
               <button
               type="submit"
-              className="ml-2 px-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="ml-2 px-2 bg-purple-700 text-white rounded hover:bg-blue-600"
               onClick={handleClickAdd}
             >
               <PlusIcon className="h-8 w-6 text-white" />
@@ -223,8 +223,8 @@ const Layout = () => {
           </div>
         </header>
         <main>
-          <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
-            <main className="p-4">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <main className="py-4">
               <Outlet />
             </main>
           </div>
