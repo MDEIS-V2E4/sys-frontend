@@ -1,24 +1,29 @@
 import { test, expect } from '@playwright/test';
 
-test('List of Clients', async ({ page }) => {
+test('list of clients', async ({ page }) => {
+    // Given
     await page.goto('https://sys-frontend-develop-3y58e.ondigitalocean.app/');
-    await page.getByRole('textbox', { name: 'Nombre:' }).click();
-    await page.getByRole('textbox', { name: 'Nombre:' }).fill('Juan Pérez 34');
+    await page.getByRole('link', { name: 'Clientes' }).click();
+    await page.getByRole('heading', { name: 'Clientes' }).getByRole('button').click();
+    await page.getByRole('textbox', { name: 'Nombre:' }).fill('aldo UI 38');
     await page.getByRole('textbox', { name: 'Nro. CI/NIT:' }).click();
-    await page.getByRole('textbox', { name: 'Nro. CI/NIT:' }).fill('12345675634');
-    await page.getByRole('textbox', { name: 'Email:' }).click();
-    await page.getByRole('textbox', { name: 'Email:' }).fill('test@gmail.com');
-    await page.getByRole('button', { name: 'Registrar Cliente' }).click();
-    await expect(page.locator('//div[contains(text(), "Guardado correctamente")]')).toContainText("Guardado correctamente");
+    await page.getByRole('textbox', { name: 'Nro. CI/NIT:' }).fill('123456369');
+    await page.getByRole('textbox', { name: 'Correo:' }).click();
+    await page.getByRole('textbox', { name: 'Correo:' }).fill('aldotest@autobots.com');
 
-    await page.waitForTimeout(1000)
-    await page.getByRole('link', { name: 'Listar Clientes' }).click();
-    await  page.waitForLoadState();
-    await  page.waitForSelector('//td[contains(text(), "Juan Pérez 34")]', { state: 'visible' });
-    await expect(page.getByRole('cell', { name: 'Juan Pérez 34' })).toBeVisible();
-    await expect(page.locator('tbody')).toContainText('Juan Pérez 34');
+    // When
+    await page.getByRole('button', { name: 'Registrar Cliente' }).click();
+    await page.waitForTimeout(1000);
+    await page.getByRole('link', { name: 'Empleados' }).click();
+    await page.waitForLoadState();
+    await page.waitForTimeout(1000);
+    await page.getByRole('link', { name: 'Clientes' }).click();
+    await page.waitForLoadState();
+
+    // Then
+    await expect(page.getByRole('cell', { name: 'aldo UI 38' })).toBeVisible();
 
     // After this test, the client is deleted
-    await page.getByRole('row', { name: 'Juan Pérez 34 12345675634 CI test@' }).getByTestId('btnGetProduct-').nth(1).click();
-    await expect(page.getByRole('cell', { name: 'Juan Pérez 34' })).toBeHidden();
+    await page.getByRole('row', { name: 'aldo UI 38 123456369 CI' }).getByRole('button').nth(1).click();
+    await expect(page.getByRole('cell', { name: 'aldo UI 38' })).toBeHidden();
 });
