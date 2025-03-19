@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
-  await page.goto('https://sys-frontend-app-tom6q.ondigitalocean.app/');
+test('Register new client', async ({ page }) => {
+  await page.goto(
+    'https://sys-frontend-develop-3y58e.ondigitalocean.app/cliente',
+  );
   await page.getByRole('textbox', { name: 'Nombre:' }).click();
   await page.getByRole('textbox', { name: 'Nombre:' }).fill('aldo balderrama');
   await page.getByRole('textbox', { name: 'Nro. CI/NIT:' }).click();
@@ -9,5 +11,7 @@ test('test', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Email:' }).click();
   await page.getByRole('textbox', { name: 'Email:' }).fill('aldo@autobook.com');
   await page.getByRole('button', { name: 'Registrar Cliente' }).click();
-  await expect(page.locator('//div[contains(text(), "Guardado correctamente")]')).toContainText("Guardado correctamente");
+  await expect(
+    page.locator('//div[contains(text(), "Guardado correctamente")]'),
+  ).toContainText('Guardado correctamente');
 });

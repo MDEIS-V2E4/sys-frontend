@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for DigitalOcean
+name: CI/CD Pipeline for DigitalOcean(stage)
 
 on:
   push:

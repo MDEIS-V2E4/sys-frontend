@@ -24,17 +24,13 @@ export interface UnidadMedida {
 }
 
 export interface Producto {
-  sku: string;
-  nombre: string;
-  nombre_xtranjero?: string;
-  cod_grupo_producto: string;
-  id_fabricante: number;
-  id_proveedor: number;
-  peso: number;
-  id_unidad_medida: number;
-  precio_lista: number;
-  cod_barra?: string;
-  sku_alternante?: string;
+  id: number;
+  code: string;
+  name: string;
+  price: number;
+  status?: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export interface Client {
@@ -54,7 +50,7 @@ export interface Employee {
   last_name: string;
   email?: string;
   phone?: string;
-  hire_date: string; 
+  hire_date: Date;
   job_title?: string;
   salary?: number;
   department_id?: number;
@@ -62,6 +58,6 @@ export interface Employee {
   status?: string;
   created_at?: string;
   updated_at?: string;
-  department_name:string;
-  manager_name:string;
+  department_name: string;
+  manager_name: string;
 }

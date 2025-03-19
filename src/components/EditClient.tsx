@@ -1,24 +1,30 @@
 import { useRef, useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers  } from "formik";
-import { useNavigate } from 'react-router-dom';
-import { FC, useState } from "react";
-import * as Yup from "yup";
-import { ClientRequest } from "../api/request/types";
-import { useCreateClientMutation } from "../api/productsApi";
-import Notification from "./Notification";
-
+import { useParams, useNavigate } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
+import { FC, useState } from 'react';
+import * as Yup from 'yup';
+import { ClientRequest } from '../api/request/types';
+import { useUpdateClientMutation } from '../api/clientApi';
+import Notification from './Notification';
+import { useFetchClientByIdQuery } from '../api/clientApi';
 
 const RegisterClient: FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const {
+    data: client,
+    isLoading,
+    refetch,
+  } = useFetchClientByIdQuery(id || '');
   const initialValues: ClientRequest = {
-    name: '',
-    ciNit: '',
-    documentType: 'CI',
-    email: '',
+    name: client?.name || '',
+    ciNit: client?.ci_nit || '',
+    documentType: client?.document_type || 'CI',
+    email: client?.email || '',
   };
   const [show, setShow] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [createCliente] = useCreateClientMutation();
+  const [message, setMessage] = useState<string>('');
+  const [updateClient] = useUpdateClientMutation();
   const validationSchema = Yup.object({
     name: Yup.string().required('Nombre es requerido'),
     ciNit: Yup.number()
@@ -37,23 +43,32 @@ const RegisterClient: FC = () => {
     }
   }, []);
 
-  const onSubmit = (values: ClientRequest, { resetForm, setSubmitting }: FormikHelpers<ClientRequest>) => {
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  const onSubmit = async (
+    values: ClientRequest,
+    { resetForm, setSubmitting }: FormikHelpers<ClientRequest>,
+  ) => {
     try {
-      console.log(values)
-      createCliente({ request: values }).unwrap();
-      setMessage("Guardado correctamente");
+      console.log(values);
+      await updateClient({ clientId: id || '', request: values }).unwrap();
+      setMessage('Guardado correctamente');
       setShow(true);
       resetForm();
       setSubmitting(false);
       navigate('/clientes');
     } catch (error) {
-      console.error("Failed to register product", error);
+      console.error('Failed to register product', error);
     }
   };
 
-  return (
+  return isLoading ? (
+    <div>Cargando...</div>
+  ) : (
     <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Registrar Nuevo Cliente</h2>
+      <h2 className="text-xl font-semibold mb-4">Editar Cliente</h2>
       <Notification
         message={message}
         show={show}
@@ -63,6 +78,7 @@ const RegisterClient: FC = () => {
 
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
@@ -126,7 +142,7 @@ const RegisterClient: FC = () => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="email" className="mb-1 font-semibold">
-                Correo:
+                Email:
               </label>
               <Field
                 id="email"
@@ -148,14 +164,13 @@ const RegisterClient: FC = () => {
                 Cancelar
               </button>
               <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Cargando..." : "Registrar Cliente"}
-            </button>
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Cargando...' : 'Editar cliente'}
+              </button>
             </div>
-            
           </Form>
         )}
       </Formik>
