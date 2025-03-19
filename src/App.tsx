@@ -1,58 +1,33 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-// import ProductForm from './components/ProductForm';
+import Dashboard from "./components/Dashboard";
 import ProductList from "./components/ProductList";
 import RegisterClient from "./components/RegisterClient";
-import RegisterInvoice from "./components/RegisterInvoice";
+import EditClient from "./components/EditClient";
 import ClientList from "./components/ClientList";
 import EmployeeList from "./components/EmployeeList";
-const App: React.FC = () => {
+import RegisterEmployee from "./components/RegisterEmployee";
+import EditEmployee from "./components/EditEmployee";
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './Layout';
+
+const App = () => {
   return (
     <Router>
-      <div className="p-8">
-        {/* Navigation Links */}
-        <nav className="mb-4">
-          <ul className="flex space-x-4">
-            <li>
-              <Link to="/clientes" className="text-blue-500 hover:underline">
-                Registrar nuevo Cliente
-              </Link>
-            </li>
-            <li>
-              <Link to="/facturas" className="text-blue-500 hover:underline">
-                Registrar Factura
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/lista-clientes"
-                className="text-blue-500 hover:underline"
-              >
-                Listar Clientes
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/lista-empleados"
-                className="text-blue-500 hover:underline"
-              >
-                Listar Empleados
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        {/* Routes */}
-        <Routes>
-          <Route path="/" element={<RegisterClient />} />
-          <Route path="/list" element={<ProductList />} />
-          <Route path="/clientes" element={<RegisterClient />} />
-          <Route path="/facturas" element={<RegisterInvoice />} />
-          <Route path="/lista-clientes" element={<ClientList />} />
-          <Route path="/lista-empleados" element={<EmployeeList />} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/cliente" element={<RegisterClient />} />
+          <Route path="/clientes" element={<ClientList />} />
+          <Route path="/cliente/:id" element={<EditClient />} />
+          <Route path="/empleados" element={<EmployeeList />} />
+          <Route path="/empleado/:id" element={<EditEmployee />} />
+          <Route path="/empleado" element={<RegisterEmployee />} />
+          <Route path="/productos" element={<ProductList />} />
           <Route path="*" element={<div>Page Not Found</div>} />
-        </Routes>
-      </div>
+        </Route>
+      </Routes>
     </Router>
   );
 };
+
 export default App;
