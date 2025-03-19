@@ -14,7 +14,7 @@ const productsApi = systemApi.injectEndpoints({
       query: (sku) => ({ url: `product/${sku}`, method: 'get' }),
     }),
     fetchProducts: builder.query<Producto[], void>({
-      query: () => ({ url: 'product', method: 'get' }),
+      query: () => ({ url: 'product/list', method: 'get' }),
       transformResponse: (response: { data: Producto[] }) => response.data,
     }),
     createProduct: builder.mutation<
